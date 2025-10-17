@@ -3,7 +3,7 @@ import csv from 'csv-parser';
 import fs from 'fs';
 import {initDB} from './DB/initdb.js';
 import {insertProduct} from './DB/insertion.js';
-
+import {pool} from './DB/initdb.js';
 const app = express();
 const PORT = 3000;
 
@@ -47,6 +47,19 @@ app.get('/upload', async (req,res)=>{
 
 
 })
+
+app.get('/products' , async(req,res)=>{
+    try{
+        console.log("Fetching products");
+        const result = await pool.query('SELECT * FROM products');
+        res.json(result.rows);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({message: 'unable to fetch products'});
+    }
+
+});
 
 app.get('/', (req,res) =>{
     res.send('Hello World!');

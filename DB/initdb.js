@@ -1,12 +1,13 @@
 import pkg from 'pg';
 const { Pool } = pkg;
 
+
 export const pool = new Pool({
-  user:'postgres',
-  host: 'db',
-  database: 'productsdb',
-  password: 'postgrespw',
-  port: 5432,
+  user: process.env.PGUSER || 'postgres',
+  host: process.env.PGHOST || 'localhost',
+  database: process.env.PGDATABASE || 'productsdb',
+  password: process.env.PGPASSWORD || 'postgrespw',
+  port: process.env.PGPORT ? Number(process.env.PGPORT) : 5432,
 });
 
 
