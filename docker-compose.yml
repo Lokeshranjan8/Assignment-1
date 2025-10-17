@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_DB: productsdb
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: asignm
+    environment:
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: postgrespw
+      PGDATABASE: productsdb
+      PGPORT: 5432
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+
+volumes:
+  db-data:
