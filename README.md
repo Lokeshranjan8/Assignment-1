@@ -16,9 +16,10 @@ Simple Node.js product importer backed by PostgreSQL. This repository provides a
 You can run the project using Docker Compose (recommended) or build/run the containers manually. Run the commands below from the project root.
 
 If you haven't cloned the repository yet:
-
+```bash
 git clone https://github.com/Lokeshranjan8/Assignment-1.git
 cd Assignment-1
+```
 
 Run with Docker Compose (foreground):
 
@@ -31,6 +32,26 @@ Or run in detached mode:
 ```bash
 docker compose up -d --build
 ```
+
+## Database  (Postgress)
+
+To view the  Postgres container and run SQL commands:
+
+```bash
+docker exec -it assignment-1-postgres-1 psql -U postgres -d productsdb
+```
+
+Once inside the Postgres shell, you can check your data, for example:
+
+
+```bash
+SELECT COUNT(*) FROM products;
+SELECT * FROM products LIMIT 5;
+```
+
+
+
+
 
 ## API documentation
 
