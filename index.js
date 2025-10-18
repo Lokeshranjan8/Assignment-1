@@ -37,18 +37,22 @@ app.post('/upload', upload.single('file'), async (req, res) => {
                 console.log(`Error processing row ${JSON.stringify(row)}: ${err.message}`);
             }
         }
-        let cnt=0;
+        let stored = 0;
+        const failureSamples = [];
+
         for(const row of rows){
             try{
                 await insertProduct(row);
-                cnt++;
+                stored++;
             }catch(err){
                 console.log(`Error inserting row ${JSON.stringify(row)}: ${err.message}`);
+                failureSamples.push({row, error: err.message});
             }
         }
+
         fs.unlinkSync(req.file.path);
 
-        res.json({message: `Processed ${cnt} rows`});
+        res.json({stored: stored, failed: failureSamples});
     } catch (err) {
         console.log(err);
         res.status(500).json({message: 'Server error'});
